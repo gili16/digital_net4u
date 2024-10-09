@@ -1,0 +1,52 @@
+from random import randint
+lotto_list=[]
+list_gamer=[]
+count=0
+money=input("Insert how much money do you have")
+money=float(money)
+number_of_games=int(money//3)
+prize=0.0
+
+if(number_of_games>0):
+    print("You have enough money for: "+str(number_of_games)+ " games\nLet's play!\n\n")
+    i=0
+    while i<number_of_games:
+        j=0
+        while j<6:
+            insert_num=int(input("Type a number\n"))
+
+            list_gamer.insert(j,insert_num)
+            j=j+1
+        z=0
+        while z<6:
+            lotto_list.insert(z, randint(1, 37))
+            z=z+1
+
+
+        for x in list_gamer:
+            if x in lotto_list:
+                count=count+1
+            else:
+                break
+        if(count==3):
+            prize=prize+10
+            continu=input("On this game you won: "+str(10)+ "ILS\nPress enter to continue\n\n")
+        elif(count==4):
+            prize=prize+100
+            continu = input("On this game you won: " + str(100) + "ILS\nPress enter to continue\n\n")
+        elif(count==5):
+            prize=prize+5000
+            continu = input("On this game you won: " + str(5000) + "ILS\nPress enter to continue\n\n")
+        elif(count==6):
+            prize=prize+1000000
+            continu = input("On this game you won: " + str(1000000) + "ILS\nPress enter to continue\n\n")
+        else:
+            continu = input("On this game you won: " + str(0) + " ILS\nPress enter to continue\n\n")
+        count=0
+        i=i+1
+        lotto_list=[]
+        list_gamer=[]
+
+    print("Then sum of the entire prize from all round is: "+str(prize)+" ILS\n\nThank you for playing!")
+else:
+    print("You don't have enough money to play")

@@ -1,0 +1,16 @@
+Facebook_campaign = 100.0
+Instagram_campaign = 50.0
+marketing_budget = input("What is your marketing budget?\n")
+time_facebook = input("How long do you want the Facebook campaign to run?\n")
+time_instagram = input("How long do you want the Instagram campaign to run?\n")
+marketing_budget=float(marketing_budget)
+time_facebook=float(time_facebook)
+time_instagram=float(time_instagram)
+sumF=Facebook_campaign*time_facebook
+sumI=Instagram_campaign*time_instagram
+sumAll=(sumF+sumI)*1.17
+print("The summary of the cost in ILS with tax is: "+str(sumAll)+ " ILS\n")
+if((sumAll)<=marketing_budget):
+    print("successfull")
+else:
+    print("You need to add: "+str(sumAll-marketing_budget)+ "ILS")

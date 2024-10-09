@@ -1,0 +1,99 @@
+בס"ד
+
+
+1. הרמת 2 מכונות UBUNTU עם רשת בין המכונות: 
+ההגדרות ב-ubuntu_1:
+sudo nano /etc/network/interfaces
+בקובץ שנפתח לכתוב - 
+auto enp0s3
+iface enp0s3 inet dhcp
+
+auto enp0s8
+iface enp0s8 inet static
+address 193.168.1.1
+netmask 255.255.255.0
+network 193.168.1.0
+broadcast 193.168.1.255
+
+(בחזרה למסך ה-SHELL)
+sudo service networking restart
+
+ההגדרות ב-ubuntu_2:
+sudo nano /etc/network/interfaces
+בקובץ שנפתח לכתוב - 
+auto enp0s3
+iface enp0s3 inet dhcp
+
+auto enp0s8
+iface enp0s8 inet static
+address 193.168.1.2
+netmask 255.255.255.0
+network 193.168.1.0
+broadcast 193.168.1.255
+
+(בחזרה למסך ה-SHELL)
+sudo service networking restart
+
+2. בדיקת פינגים וחיבור SSH + העברת קובץ בעזרת SCP:
+ubuntu_1 :
+ping landau@193.168.1.2
+sudo apt-get update -y
+sudo apt-get install openssh-server -y
+sudo apt-get install net-tools -y
+netstat -npla | grep tcp (בדיקה שמאזין ל-port 22)
+ssh landau@193.168.1.2
+touch 1.txt
+scp 1.txt landau@193.168.1.2:/home/landau
+
+ubuntu_2:
+ping gili@193.168.1.1
+sudo apt-get update -y
+sudo apt-get install openssh-server -y
+sudo apt-get install net-tools -y
+netstat -npla | grep tcp (בדיקה שמאזין ל-port 22)
+ssh gili@193.168.1.1
+touch 2.txt
+scp 2.txt gili@193.168.1.1:/home/gili
+
+3.סקריפט: 
+במסך ה-SHELL(ubuntu_1):
+ssh-keygen
+ssh-copy-id landau@193.168.1.2
+sudo apt-get install sshpass
+cd /home/gili/scripts
+nano scriptMkNet4U.sh
+במסך ה-nano:
+bin/bash/#!
+sshpass -p 'rootroot' ssh landau@193.168.1.2 ' mkdir Net4U ; cd Net4U ; touch 1.txt 2.txt 3.txt 4.txt ; tar -zcf net4u.tgz 1.txt 2.txt 3.txt 4.txt ; rm 1.txt &&rm 2.txt&&rm 3.txt&&rm 4.txt' ; '
+במסך ה-SHELL:
+bash scriptMkNet4U.sh
+
+4. סקריפט: 
+cd /home/gili/scripts
+nano scriptPrint.sh
+במסך ה-NANO :
+bin/bash/#!
+echo -e "type number of lines"
+read CHOOSE
+echo -e "type number of rows"
+read CHOOSE
+VAR=0
+"VARVAL="$VAR
+VAR2=0
+"VARVAL2="$VAR2
+while [ $VARVAL -lt $CHOOSE ]
+do
+while [$VARVAL2 -lt $CHOOSE ]
+do
+" echo -n "Net4U
+let VAR2=VAR2+1
+"VARVAL2="$VAR2
+done
+" " echo -e
+let VAR=VAR+1
+"VARVAL="$VAR 
+VAR2=0
+"VARVAL2="$VAR2
+done
+במסך ה-SHELL:
+bash scriptPrinf.sh
